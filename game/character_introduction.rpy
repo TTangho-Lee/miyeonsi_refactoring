@@ -71,11 +71,12 @@ label apply_character_selection:
         system_prompt_suah  = all_characters[role_side2]["prompt"]
 
         # [4] 휴대폰 UI 이름 변수 동기화
-        dawon_name_ui = main_char_name
-        jiwoo_name_ui = side1_char_name
-        suah_name_ui  = side2_char_name
+        dawon_name_ui = "???"
+        jiwoo_name_ui = "???"
+        suah_name_ui  = "???"
 
     "캐릭터 설정이 완료되었습니다. 게임을 시작합니다."
+    
     jump talk_1
 
 # ---------------------------------------------------------

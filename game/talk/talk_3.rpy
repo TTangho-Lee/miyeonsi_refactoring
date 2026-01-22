@@ -20,6 +20,7 @@ label talk_3:
     $ typing(jiwoo_blind, "[user] 안녕?")
     $ typing(user, "안녕하세요.")
     # 서브 캐릭터 1의 실제 이름으로 정체 고정 [cite: 24]
+    $ jiwoo_name_ui = side1_char_name  # 휴대폰 UI 이름 동기화
     $ typing(jiwoo, "나는 " + side1_char_name + "라고 해.")
     $ apply_affinity_change("jiwoo", 30)
     

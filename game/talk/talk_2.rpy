@@ -24,6 +24,7 @@ label talk_2:
     $ typing(suah_blind, "선배님들 같이 계셨네요?")
     $ typing(user, "아, 안녕?")
     # 서브 캐릭터 2의 실제 이름을 사용하여 정체를 밝힘 [cite: 24]
+    $ suah_name_ui = side2_char_name  # 휴대폰 UI 이름 동기화
     $ typing(suah_blind, "에이 선배님, " + side2_char_name + "예요! 서운하게 왜 그러세요~")
     
     $ apply_affinity_change("suah", 30)

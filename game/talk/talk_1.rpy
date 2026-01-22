@@ -30,6 +30,7 @@ label talk_1:
     $ typing(user, "내가 좀 취했었나봐, 이름 좀 ...")
     
     # 선택된 메인 캐릭터의 실제 이름을 출력 [cite: 23]
+    $ dawon_name_ui = main_char_name  # 휴대폰 UI 이름 동기화
     $ typing(dawon, "내 이름은 " + main_char_name + "이야.") 
     $ apply_affinity_change("dawon", 30)
 

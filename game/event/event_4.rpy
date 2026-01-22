@@ -1,0 +1,31 @@
+label event_4:
+
+    while True:
+
+        # 1차 질문 출력
+        "{cps=[text_speed]}탈퇴하시겠습니까?{/cps}"
+
+        menu:
+            "네":
+                "{cps=[text_speed]}정말로 탈퇴하시겠습니까? 탈퇴를 하고 난 후의 패널티가 적용됩니다.{/cps}"
+
+                # 2차 질문
+                menu:
+                    "네":
+                        $ send_notification("%s님의 호감도가 -25 하락했습니다." % hobanwoo_blind)
+                        # 호감도 적용
+                        $ apply_affinity_change("hobanwoo", -25)
+
+                        if hobanwoo_affinity <= 0:
+                        # "bad_ending"이라는 라벨로 강제 점프합니다.
+                            jump hobanwoo_angry
+                        # 루프 계속
+                        jump event_4
+
+                    "아니오":
+                        "{cps=[text_speed]}...취소되었습니다.{/cps}"
+                        return
+
+            "아니오":
+                "{cps=[text_speed]}...취소되었습니다.{/cps}"
+                return

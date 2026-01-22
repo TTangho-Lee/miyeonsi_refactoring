@@ -1,62 +1,35 @@
 label happy_ending:
     scene bg lab
-    # 1. 호감도 최대 캐릭터 (인간 캐릭터 중) 찾기
-    $ char_affinities = {
-        "dawon": dawon_affinity,
-        "jiwoo": jiwoo_affinity,
-        "suah": suah_affinity,
-    }
     
-    # 2. 최고 호감도 캐릭터 (a) 선택
-    $ max_char_id = max(char_affinities, key=char_affinities.get)
-    $ max_affinity = char_affinities[max_char_id]
-
-    if max_char_id == "dawon":
-        show dawon shy
-        $ typing(dawon, "정말? 그럼...우리")
+    if max_slot_id == "main_role":
+        show main_role shy
+        $ typing(main_role, "정말? 그럼...우리")
         $ typing(user, "사귀자")
-        hide dawon shy
-        show dawon smile
-        $ typing(dawon, "...좋아")
-        hide dawon smile
-        scene bg sunset_dawon with dissolve
-        "해가 내려가고 하늘이 붉게 물든 시간"
-        "(다원은 [player_name]에게 팔짱을 낀다.)"
-        $ typing(dawon, "너랑 이런 사이가 되어서.. 정말 좋아해")
+        show main_role smile
+        $ typing(main_role, "...좋아")
+        scene bg sunset_dawon with dissolve # 메인 캐릭터 전용 배경 (또는 슬롯 배경)
+        $ typing(main_role, "너랑 이런 사이가 되어서.. 정말 좋아해")
         $ persistent.ending_image = dawon_happy_ending_image
-        $ renpy.save_persistent()
-        return
 
-    elif max_char_id == "jiwoo":
-        show jiwoo shy
-        $ typing(jiwoo, "정말? 그럼...우리")
+    elif max_slot_id == "sub_role1":
+        show sub_role1 shy
+        $ typing(sub_role1, "정말? 그럼...우리")
         $ typing(user, "사귀자")
-        hide jiwoo shy
-        show jiwoo smile
-        $ typing(jiwoo, "...좋아")
-        hide jiwoo smile
+        show sub_role1 smile
+        $ typing(sub_role1, "...좋아")
         scene bg sunset_jiwoo with dissolve
-        "해가 내려가고 하늘이 붉게 물든 시간"
-        "(지우는 [player_name]에게 팔짱을 낀다.)"
-        $ typing(jiwoo, "너랑 이런 사이가 되어서.. 정말 좋아해")
+        $ typing(sub_role1, "너랑 이런 사이가 되어서.. 정말 좋아해")
         $ persistent.ending_image = jiwoo_happy_ending_image
-        $ renpy.save_persistent()
-        return
 
-    elif max_char_id == "suah":
-        show suah shy
-        $ typing(suah, "정말? 그럼...우리")
+    elif max_slot_id == "sub_role2":
+        show sub_role2 shy
+        $ typing(sub_role2, "정말? 그럼...우리")
         $ typing(user, "사귀자")
-        hide suah shy
-        show suah smile
-        $ typing(suah, "...좋아")
-        hide suah smile
+        show sub_role2 smile
+        $ typing(sub_role2, "...좋아")
         scene bg sunset_suah with dissolve
-        "해가 내려가고 하늘이 붉게 물든 시간"
-        "(수아는 [player_name]에게 팔짱을 낀다.)"
-        $ typing(suah, "너랑 이런 사이가 되어서.. 정말 좋아해")
+        $ typing(sub_role2, "너랑 이런 사이가 되어서.. 정말 좋아해")
         $ persistent.ending_image = suah_happy_ending_image
-        $ renpy.save_persistent()
-        return
 
-    
+    $ renpy.save_persistent()
+    return

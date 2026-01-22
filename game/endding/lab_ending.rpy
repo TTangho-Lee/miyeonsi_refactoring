@@ -1,22 +1,26 @@
 label lab_ending:
     scene bg lab
-    show dawon normal at left
-    show jiwoo normal at center
-    show suah normal at right
+    # 역할 슬롯 ID를 사용하여 각 위치에 캐릭터 표시
+    show main_role normal at left
+    show sub_role1 normal at center
+    show sub_role2 normal at right
 
-    $ typing(dawon, "…그런 말 하면… 우리")
+    # 메인 히로인 슬롯 대사
+    $ typing(main_role, "…그런 말 하면… 우리")
     
-    hide dawon normal with dissolve
+    hide main_role normal with dissolve
     "지직—"
 
-    $ typing(jiwoo, "걱정… 하지… 마.")
+    # 서브 히로인 1 슬롯 대사
+    $ typing(sub_role1, "걱정… 하지… 마.")
     
-    hide jiwoo normal with dissolve
+    hide sub_role1 normal with dissolve
     "찌익—"
 
-    $ typing(suah, "선배… 제발…")
+    # 서브 히로인 2 슬롯 대사
+    $ typing(sub_role2, "선배… 제발…")
     
-    hide suah normal with dissolve
+    hide sub_role2 normal with dissolve
     "——신호 끊김——"
 
     scene black with fade
@@ -24,6 +28,7 @@ label lab_ending:
 
     "…삐…—"
 
+    # 연구원 및 시스템 대사 (고정 NPC)
     $ typing(researcher_a, "가상체 전부 다운. 피험자, 자각 단계 진입 확인.")
     $ typing(researcher_b, "이번엔 빠르네요. 알고리즘이 너무 익었나 봅니다.")
 
@@ -67,6 +72,7 @@ label lab_ending:
 
     pause short_pause
 
+    # 엔딩 정보 저장 및 루프 재시작
     $ persistent.ending_image = lab_ending_image
     $ renpy.save_persistent()
     jump talk_1

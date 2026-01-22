@@ -1,262 +1,64 @@
 init python:
-    def talk_loop(charactor, finish_condition, max_turn=3, last_char_line=""):
-        global player_name, dawon_affinity, jiwoo_affinity, suah_affinity, professor_affinity
-        global system_prompt_dawon, system_prompt_jiwoo, system_prompt_suah, system_prompt_professor
-        emotion_map = {
-            "normal": "normal",
-            "smile": "smile",
-            "sad": "sad",
-            "shy": "shy",
-            "angry": "angry",
+    def talk_loop(char_id, sys_prompt, finish_condition, max_turn=3, last_char_line=""):
+        global player_name
+        # 캐릭터 ID와 매칭되는 객체 및 호감도 변수 매핑
+        # character_definition.rpy에 정의된 역할 객체들을 사용합니다. [cite: 680]
+        char_map = {
+            "dawon": (store.dawon, "dawon_affinity"),
+            "jiwoo": (store.jiwoo, "jiwoo_affinity"),
+            "suah": (store.suah, "suah_affinity"),
+            "professor": (store.professor, "professor_affinity"),
+            "hobanwoo": (store.hobanwoo, "hobanwoo_affinity")
         }
-        all_emotions = ["normal", "smile", "sad", "shy", "angry"]
+        
+        target_char, aff_var_name = char_map.get(char_id, (store.dawon, "dawon_affinity"))
+        current_affinity = getattr(store, aff_var_name)
+        
         summary = []
-        is_sus = False
-        turn_count = 0  # [추가] 대화 턴 수 카운트
+        turn_count = 0
         last_reply = last_char_line
 
-        # 캐릭터별 초기 설정
-        if charactor == "dawon":
-            current_affinity = dawon_affinity
-            sys_prompt = system_prompt_dawon
-        elif charactor == "jiwoo":
-            current_affinity = jiwoo_affinity
-            sys_prompt = system_prompt_jiwoo
-        elif charactor == "suah":
-            current_affinity = suah_affinity
-            sys_prompt = system_prompt_suah
-        elif charactor == "professor":
-            current_affinity = professor_affinity
-            sys_prompt = system_prompt_professor
-
         while True:
-            # [안전장치 1] 10턴이 넘어가면 강제 종료 (무한 루프 방지)
-            if turn_count >= max_turn+2:
-                return
+            if turn_count >= max_turn + 2: return
 
-            # AI를 통해 선택지 생성
+            # AI를 통해 선택지 생성 [cite: 735]
             choices = gemini_generate_choices(sys_prompt, summary, last_reply, current_affinity, player_name, finish_condition)
             
-            # 메뉴 표시
-            choice = renpy.display_menu(
-                [
-                    (choices[0], choices[0]),
-                    (choices[1], choices[1]),
-                    ("직접 입력", "direct_input")
-                ]
-            )
+            choice = renpy.display_menu([
+                (choices[0], choices[0]),
+                (choices[1], choices[1]),
+                ("직접 입력", "direct_input")
+            ])
 
-            if choice == "direct_input":
-                user_msg = renpy.input(f"{player_name}:").strip()
-            else:
-                user_msg = choice
-
-            if user_msg == "":
-                # 빈 입력은 턴 수에 포함하지 않거나, 그냥 넘어감
-                continue
+            user_msg = renpy.input(f"{player_name}:").strip() if choice == "direct_input" else choice
+            if not user_msg: continue
             
-            turn_count += 1 # 유효한 대화 1턴 증가
-
-            # [핵심 수정] 3턴 이상 진행되면 종료 유도 프롬프트 추가
-            # finish_condition 문자열 뒤에 시스템 메시지를 덧붙여 LLM에게 종료를 압박합니다.
+            turn_count += 1
             current_condition = finish_condition
             if turn_count >= max_turn:
-                current_condition = f"현재 대화가 {turn_count}턴 진행되었다. 대화가 마무리되는 대사를 입력하여라./ 반드시 'goal_achievement: true'를 출력하여 대화를 종료하여라."
+                current_condition = f"{finish_condition} / 대화가 길어졌으니 마무리 대사를 하고 반드시 'goal_achievement: true'를 출력해."
 
-            summary_text = "\n".join(summary) if summary else ""
-
-            # AI 응답 생성
-            # finish_condition 대신 수정된 current_condition을 전달합니다.
-            reply, charactor_emotion, summary_text, affinity_delta, is_sus, goal_achieved = gemini_generate_response(
+            # AI 응답 생성 [cite: 719]
+            reply, emotion, summary_text, delta, is_sus, goal_achieved = gemini_generate_response(
                 sys_prompt, summary, user_msg, current_affinity, player_name, current_condition
             )
-            last_reply = reply # 다음 턴의 선택지 생성을 위해 현재 응답을 저장
-            reply = reply.replace("{", "{{").replace("}", "}}")
-            sentences=[s for s in split_sentences(reply)]
-            # 요약 저장
+            
+            # 비주얼 처리 (DynamicImage가 적용된 태그 사용) [cite: 695]
+            renpy.hide(char_id) 
+            renpy.show(f"{char_id} {emotion}", at_list=[store.center])
+
             summary.append(f"user: {user_msg}")
+            summary.append(f"{char_id}: {reply}")
             
+            # 호감도 반영 및 업데이트 [cite: 782]
+            apply_affinity_change(char_id, delta)
+            current_affinity = getattr(store, aff_var_name)
+            last_reply = reply
 
-            for emo in all_emotions:
-                renpy.hide("dawon " + emo)
-                renpy.hide("suah " + emo)
-                renpy.hide("jiwoo " + emo)
-                renpy.hide("professor " + emo)
+            # 대사 출력 (텍스트 이스케이프 처리) [cite: 624]
+            sentences = [s for s in split_sentences(reply)]
+            for s in sentences:
+                safe_s = s.replace("{", "{{").replace("}", "}}")
+                renpy.say(target_char, "{cps=[text_speed]}%s{/cps}" % safe_s)
 
-            if charactor_emotion in emotion_map:
-                show_expression = emotion_map[charactor_emotion]
-                if charactor=="dawon":
-                    renpy.show(charactor + " " + show_expression, at_list=[store.left])
-                elif charactor=="jiwoo":
-                    renpy.show(charactor + " " + show_expression, at_list=[store.center])
-                elif charactor=="suah":
-                    renpy.show(charactor + " " + show_expression, at_list=[store.right])
-                elif charactor=="professor":
-                    renpy.show(charactor + " " + show_expression, at_list=[store.center])
-
-            if charactor == "dawon":
-                summary.append(f"dawon: {reply}")
-                apply_affinity_change("dawon", affinity_delta)
-                current_affinity = dawon_affinity
-                for s in sentences:
-                    # %, [, {, } 기호를 모두 이스케이프 처리하여 오류 방지
-                    safe_s = s.replace("%", "%%").replace("[", "[[").replace("{", "{{").replace("}", "}}")
-                    renpy.say(dawon, "{cps=[text_speed]}%s{/cps}" % safe_s)
-            elif charactor == "jiwoo":
-                summary.append(f"jiwoo: {reply}")
-                apply_affinity_change("jiwoo", affinity_delta)
-                current_affinity = jiwoo_affinity
-                for s in sentences:
-                    safe_s = s.replace("%", "%%").replace("[", "[[").replace("{", "{{").replace("}", "}}")
-                    renpy.say(jiwoo, "{cps=[text_speed]}%s{/cps}" % safe_s)
-            elif charactor == "suah":
-                summary.append(f"suah: {reply}")
-                apply_affinity_change("suah", affinity_delta)
-                current_affinity = suah_affinity
-                for s in sentences:
-                    safe_s = s.replace("%", "%%").replace("[", "[[").replace("{", "{{").replace("}", "}}")
-                    renpy.say(suah, "{cps=[text_speed]}%s{/cps}" % safe_s)
-            elif charactor == "professor":
-                summary.append(f"professor: {reply}")
-                apply_affinity_change("professor", affinity_delta)
-                current_affinity = professor_affinity
-                for s in sentences:
-                    safe_s = s.replace("%", "%%").replace("[", "[[").replace("{", "{{").replace("}", "}}")
-                    renpy.say(professor, "{cps=[text_speed]}%s{/cps}" % safe_s)
-            
-
-            # [안전장치 2] 목표 달성 시 종료
-            if goal_achieved:
-                return
-
-        return
-
-
-    def talk_loop_center(charactor, finish_condition, max_turn=5, last_char_line=""):
-        global player_name, dawon_affinity, jiwoo_affinity, suah_affinity, professor_affinity
-        global system_prompt_dawon, system_prompt_jiwoo, system_prompt_suah, system_prompt_professor
-        emotion_map = {
-            "normal": "normal",
-            "smile": "smile",
-            "sad": "sad",
-            "shy": "shy",
-            "angry": "angry",
-        }
-        all_emotions = ["normal", "smile", "sad", "shy", "angry"]
-        summary = []
-        is_sus = False
-        turn_count = 0  # [추가] 대화 턴 수 카운트
-        last_reply = last_char_line
-
-        # 캐릭터별 초기 설정
-        if charactor == "dawon":
-            current_affinity = dawon_affinity
-            sys_prompt = system_prompt_dawon
-        elif charactor == "jiwoo":
-            current_affinity = jiwoo_affinity
-            sys_prompt = system_prompt_jiwoo
-        elif charactor == "suah":
-            current_affinity = suah_affinity
-            sys_prompt = system_prompt_suah
-        elif charactor == "professor":
-            current_affinity = professor_affinity
-            sys_prompt = system_prompt_professor
-
-        while True:
-            # [안전장치 1] 10턴이 넘어가면 강제 종료 (무한 루프 방지)
-            if turn_count >= max_turn+2:
-                return
-
-            # AI를 통해 선택지 생성
-            choices = gemini_generate_choices(sys_prompt, summary, last_reply, current_affinity, player_name, finish_condition)
-            
-            # 메뉴 표시
-            choice = renpy.display_menu(
-                [
-                    (choices[0], choices[0]),
-                    (choices[1], choices[1]),
-                    ("직접 입력", "direct_input")
-                ]
-            )
-
-            if choice == "direct_input":
-                user_msg = renpy.input(f"{player_name}:").strip()
-            else:
-                user_msg = choice
-
-            if user_msg == "":
-                # 빈 입력은 턴 수에 포함하지 않거나, 그냥 넘어감
-                continue
-            
-            turn_count += 1 # 유효한 대화 1턴 증가
-
-            # [핵심 수정] 3턴 이상 진행되면 종료 유도 프롬프트 추가
-            # finish_condition 문자열 뒤에 시스템 메시지를 덧붙여 LLM에게 종료를 압박합니다.
-            current_condition = finish_condition
-
-            summary_text = "\n".join(summary) if summary else ""
-
-            # AI 응답 생성
-            # finish_condition 대신 수정된 current_condition을 전달합니다.
-            reply, charactor_emotion, summary_text, affinity_delta, is_sus, goal_achieved = gemini_generate_response(
-                sys_prompt, summary, user_msg, current_affinity, player_name, current_condition
-            )
-            last_reply = reply # 다음 턴의 선택지 생성을 위해 현재 응답을 저장
-            reply = reply.replace("{", "{{").replace("}", "}}")
-            sentences=[s for s in split_sentences(reply)]
-            # 요약 저장
-            summary.append(f"user: {user_msg}")
-            
-
-            for emo in all_emotions:
-                renpy.hide("dawon " + emo)
-                renpy.hide("suah " + emo)
-                renpy.hide("jiwoo " + emo)
-                renpy.hide("professor " + emo)
-
-            if charactor_emotion in emotion_map:
-                show_expression = emotion_map[charactor_emotion]
-                if charactor=="dawon":
-                    renpy.show(charactor + " " + show_expression, at_list=[store.center])
-                elif charactor=="jiwoo":
-                    renpy.show(charactor + " " + show_expression, at_list=[store.center])
-                elif charactor=="suah":
-                    renpy.show(charactor + " " + show_expression, at_list=[store.center])
-                elif charactor=="professor":
-                    renpy.show(charactor + " " + show_expression, at_list=[store.center])
-
-            if charactor == "dawon":
-                summary.append(f"dawon: {reply}")
-                apply_affinity_change("dawon", affinity_delta)
-                current_affinity = dawon_affinity
-                for s in sentences:
-                    safe_s = s.replace("{", "{{").replace("}", "}}")
-                    renpy.say(dawon, "{cps=[text_speed]}%s{/cps}" % safe_s)
-            elif charactor == "jiwoo":
-                summary.append(f"jiwoo: {reply}")
-                apply_affinity_change("jiwoo", affinity_delta)
-                current_affinity = jiwoo_affinity
-                for s in sentences:
-                    safe_s = s.replace("{", "{{").replace("}", "}}")
-                    renpy.say(jiwoo, "{cps=[text_speed]}%s{/cps}" % safe_s)
-            elif charactor == "suah":
-                summary.append(f"suah: {reply}")
-                apply_affinity_change("suah", affinity_delta)
-                current_affinity = suah_affinity
-                for s in sentences:
-                    safe_s = s.replace("{", "{{").replace("}", "}}")
-                    renpy.say(suah, "{cps=[text_speed]}%s{/cps}" % safe_s)
-            elif charactor == "professor":
-                summary.append(f"professor: {reply}")
-                apply_affinity_change("professor", affinity_delta)
-                current_affinity = professor_affinity
-                for s in sentences:
-                    safe_s = s.replace("{", "{{").replace("}", "}}")
-                    renpy.say(professor, "{cps=[text_speed]}%s{/cps}" % safe_s)
-            
-
-            # [안전장치 2] 목표 달성 시 종료
-            if goal_achieved:
-                return
-
-        return
+            if goal_achieved: return

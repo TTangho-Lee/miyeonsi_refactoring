@@ -1,25 +1,21 @@
 label bad_ending:
-    default character_map = {
-        "dawon": dawon,
-        "jiwoo": jiwoo,
-        "suah": suah,
-    }
-
-    # 1. 호감도 최대 캐릭터 (인간 캐릭터 중) 찾기
-    $ char_affinities = {
-        "dawon": dawon_affinity,
-        "jiwoo": jiwoo_affinity,
-        "suah": suah_affinity,
-    }
-    
-    # 2. 최고 호감도 캐릭터 (a) 선택
-    $ max_char_id = max(char_affinities, key=char_affinities.get)
-    $ max_affinity = char_affinities[max_char_id]
-
-    $ a = character_map[max_char_id]
+    # 1. 역할 슬롯별 호감도 비교 (중립 ID 사용)
+    python:
+        char_affinities = {
+            "main_role": main_role_affinity,
+            "sub_role1": sub_role1_affinity,
+            "sub_role2": sub_role2_affinity,
+        }
+        
+        # 최고 호감도 슬롯 결정
+        max_slot_id = max(char_affinities, key=char_affinities.get)
+        
+        # 해당 슬롯의 캐릭터 객체를 동적으로 가져옴
+        a = getattr(store, max_slot_id)
     
     scene bg black with fade
-    show expression "%s surprised" % max_char_id
+    # 슬롯 ID를 사용하여 이미지 표시 (예: main_role surprised)
+    show expression "%s surprised" % max_slot_id
     
     $ typing(a, "너는 왜..")
     $ typing(a, "나와 [user_eulreul] 이어주지 않는거야?")
@@ -58,10 +54,13 @@ label bad_ending:
     $ typing(a, "걱정 마.")
     $ typing(a, "우리는... 또 아무것도 기억 못하니까.")
 
-    # --- 최종 탈퇴/리셋 메뉴 (강제 선택) ---
-    hide expression "%s surprised" % max_char_id
+    # --- 최종 탈퇴/리셋 연출 ---
+    hide expression "%s surprised" % max_slot_id
     "'띠링'"
     $ send_notification("KNUAI : [메세지] 새로운 메시지가 도착하였습니다.")
+    
+    # 엔딩 이미지 설정 및 저장
     $ persistent.ending_image = bad_ending_image
     $ renpy.save_persistent()
+    
     return

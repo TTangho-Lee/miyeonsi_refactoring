@@ -1,23 +1,23 @@
 label event_7:
     menu:
-        "윤수아의 손을 잡는다":
-            $ apply_affinity_change("suah", 5)
+        "[side2_char_name]의 손을 잡는다":
+            $ apply_affinity_change("sub_role2", 5)
             scene bg hand with dissolve
-            $ typing(suah, "......")
+            $ typing(sub_role2, "......")
             jump talk_8
 
-        "홍지우의 손을 잡는다":
-            $ apply_affinity_change("jiwoo", 5)
+        "[side1_char_name]의 손을 잡는다":
+            $ apply_affinity_change("sub_role1", 5)
             scene bg hand with dissolve
-            $ typing(jiwoo, ".......")
+            $ typing(sub_role1, ".......")
             jump talk_8
 
-        "임다원의 손을 잡는다":
-            $ apply_affinity_change("dawon", 5)
+        "[main_char_name]의 손을 잡는다":
+            $ apply_affinity_change("main_role", 5)
             scene bg hand with dissolve
-            $ typing(dawon, "......")
+            $ typing(main_role, "......")
             jump talk_8
 
         "아무것도 잡지 않는다":
-            $ apply_affinity_change("hobanwoo",-10)
+            $ apply_affinity_change("hobanwoo", -10)
             jump talk_8

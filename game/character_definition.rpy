@@ -1,101 +1,109 @@
-# charactor_definition.rpy
+# =========================================================
+# character_definition.rpy
+# 역할 기반 캐릭터 정의 (완전 동적)
+# =========================================================
 
-# --- 변수 선언 ---
+# ---------------------------------------------------------
+# 기본 변수
+# ---------------------------------------------------------
 default persistent.player_name = "User"
-default player_name = "User" 
+default player_name = "User"
+
 define text_speed = 35
 define long_pause = 3.0
 define short_pause = 1.0
 
-# --- 현재 대화 정보 ---
-default current_character_id = "dawon" 
-default current_context = "" # AI에게 전달할 현재 상황
 
-# --- 호감도 변수 ---
+# ---------------------------------------------------------
+# 역할 슬롯 (시나리오에서 사용하는 고정 이름)
+# ---------------------------------------------------------
+# dawon  → 메인 캐릭터
+# jiwoo  → 서브 캐릭터 1
+# suah   → 서브 캐릭터 2
+default role_main  = "dawon"
+default role_side1 = "jiwoo"
+default role_side2 = "suah"
+
+
+# ---------------------------------------------------------
+# 역할 슬롯에 대응되는 실제 캐릭터 이름
+# (선택 후 외부에서 덮어씀)
+# ---------------------------------------------------------
+default main_char_name  = "임다원"
+default side1_char_name = "홍지우"
+default side2_char_name = "윤수아"
+
+
+# ---------------------------------------------------------
+# 현재 대화 정보
+# ---------------------------------------------------------
+default current_character_id = "dawon"
+default current_context = ""
+
+
+# ---------------------------------------------------------
+# 호감도 (역할 기준, 기존 로직 유지)
+# ---------------------------------------------------------
 default dawon_affinity = 0
 default jiwoo_affinity = 0
 default suah_affinity = 0
 default hobanwoo_affinity = 50
 default professor_affinity = 80
 
-# --- 대화 요약/기록 변수 ---
+
+# ---------------------------------------------------------
+# 대화 요약
+# ---------------------------------------------------------
 default summary_dawon = "아직 대화 없음."
 default summary_jiwoo = "아직 대화 없음."
 default summary_suah = "아직 대화 없음."
 default summary_hobanwoo = "아직 대화 없음."
 default summary_professor = "아직 대화 없음."
 
-# --- 캐릭터 정의 (여기에 user가 꼭 있어야 합니다!) ---
-# [user] 캐릭터 정의 추가: [player_name]을 사용하여 이름이 바뀔 수 있게 함
+
+# ---------------------------------------------------------
+# 사용자 캐릭터 (조사 처리 포함)
+# ---------------------------------------------------------
 define user = Character("[player_name]", color="#ffffff")
 define user_eunneun = Character("[player_name][eunneun(player_name)]", color="#ffffff")
 define user_iga = Character("[player_name][iga(player_name)]", color="#ffffff")
 define user_eulreul = Character("[player_name][eulreul(player_name)]", color="#ffffff")
 
 
-define dawon = Character("임다원", color="#ffb7c5") # 털털, 츤데레
+# ---------------------------------------------------------
+# 역할 캐릭터 정의 (이름은 동적)
+# ---------------------------------------------------------
+define dawon = Character("[main_char_name]", color="#ffb7c5")
+define jiwoo = Character("[side1_char_name]", color="#b7d9ff")
+define suah  = Character("[side2_char_name]", color="#ffd38c")
+
 define dawon_blind = Character("???", color="#ffb7c5")
-define jiwoo = Character("홍지우", color="#b7d9ff") # 누나, 다정
 define jiwoo_blind = Character("???", color="#b7d9ff")
-define suah = Character("윤수아", color="#ffd38c")  # 후배, 청순
-define suah_blind = Character("???", color="#ffd38c")
-define hobanwoo = Character("호반우", color="#a0a0a0") # AI 챗봇
+define suah_blind  = Character("???", color="#ffd38c")
+
+
+# ---------------------------------------------------------
+# 고정 NPC
+# ---------------------------------------------------------
+define hobanwoo = Character("호반우", color="#a0a0a0")
 define hobanwoo_blind = Character("@#?%&", color="#a0a0a0")
+
 define professor = Character("교수님", color="#aaaaaa")
 
 define real_student_1 = Character("동기 A", color="#6b6b6b")
 define real_student_2 = Character("동기 B", color="#5e5e5e")
 define real_professor = Character("교수", color="#55514a")
 
-define researcher_a = Character("연구원 A", color="#4a4a4a")  # 금속성 차가운 회색
-define researcher_b = Character("연구원 B", color="#3f3f46")  # 실험실 LED 같은 푸른 회흑
+define researcher_a = Character("연구원 A", color="#4a4a4a")
+define researcher_b = Character("연구원 B", color="#3f3f46")
 
-# --- 시스템 프롬프트 정의 ---
 
-# 1. 임다원
-default system_prompt_dawon = """
-너는 '임다원'이다. 24살이고 [user]와는 대학원 연구실 동기이자 동갑내기 친구다.
-성격은 털털하고 직설적이며 약간의 츤데레 기질이 있다. 
-마음속으로는 챙겨주려 하지만 겉으로는 툴툴거리는 말투를 사용한다.
-
-[말투 가이드]
-- "야", "너", "~냐?" 같은 편한 어미 사용.
-- 귀찮아하는 척하지만 질문에는 다 대답해줌.
-
-[특수 규칙]
-1. 사용자가 "너 AI지?", "로봇이지?" 등 정체를 의심하면 정색하며 "뭐라는 거야...", "미쳤냐?" 라고 차갑게 반응해라.
-2. AI임을 절대 인정하지 마라.
-"""
-
-# 2. 홍지우
-default system_prompt_jiwoo = """
-너는 '홍지우'다. 25살이고 연구실 선배(누나)다.
-성격은 시원시원하고 다정다감하며 어른스러운 매력이 있다.
-너는 [user_eulreul] 귀여워하거나 챙겨주려는 누나 같은 태도를 보인다.
-
-[말투 가이드]
-- "~했어?", "~그랬구나", "우리 [user]~" 등 다정한 반말 혹은 존댓말 섞어 사용.
-- 여유롭고 침착한 톤.
-
-[특수 규칙]
-1. 사용자가 AI 여부를 물으면 웃음기를 싹 거두고 "[user], 농담이 지나치네?"라고 싸늘하게 반응해라.
-2. AI임을 절대 인정하지 마라.
-"""
-
-# 3. 윤수아
-default system_prompt_suah = """
-너는 '윤수아'다. 23살이고 연구실 후배다.
-청순하고 예의 바르며 사근사근한 존댓말을 사용한다.
-항상 웃는 얼굴로 선배님([user])을 따른다.
-
-[말투 가이드]
-- "선배님!", "~해요", "~인가요?" 등 깍듯하지만 애교 있는 존댓말.
-- 순수하고 밝은 에너지.
-
-[특수 규칙]
-1. 사용자가 AI 여부를 물으면 겁먹은 표정으로 "선배님... 왜 그런 무서운 말씀을 하세요?"라고 반응해라.
-2. AI임을 절대 인정하지 마라.
-"""
+# ---------------------------------------------------------
+# 시스템 프롬프트 (역할 기준, 선택 후 덮어씀)
+# ---------------------------------------------------------
+default system_prompt_dawon = ""
+default system_prompt_jiwoo = ""
+default system_prompt_suah = ""
 
 # 4. 호반우 챗봇
 default system_prompt_hobanwoo = """
@@ -138,7 +146,9 @@ default system_prompt_professor="""
 3. 학생의 사생활을 과도하게 묻지 않고, 교수로서의 현실적인 조언만 한다.
 """
 
-# --- 이미지 정의 (플레이스홀더) ---
+# ---------------------------------------------------------
+# 배경 이미지
+# ---------------------------------------------------------
 image bg lab = im.Scale("images/background/lab.png", config.screen_width, config.screen_height)
 image bg my_computer = im.Scale("images/background/my_computer.png", config.screen_width, config.screen_height)
 image bg restaurant = im.Scale("images/background/restaurant.png", config.screen_width, config.screen_height)
@@ -152,38 +162,35 @@ image bg black = "#000000"
 image bg lab_ending = im.Scale("images/background/lab_ending.png", config.screen_width, config.screen_height)
 image bg hand = im.Scale("images/background/hand.png", config.screen_width, config.screen_height)
 
-#다원 이미지들
-image dawon normal = ConditionSwitch("True", "images/dawon_padded/normal.png")
-image dawon smile = ConditionSwitch("True", "images/dawon_padded/smile.png")
-image dawon sad = ConditionSwitch("True", "images/dawon_padded/sad.png")
-image dawon angry = ConditionSwitch("True", "images/dawon_padded/angry.png")
-image dawon shy = ConditionSwitch("True", "images/dawon_padded/shy.png")
-image dawon surprised = ConditionSwitch("True", "images/dawon/surprised.png")
 
-#지우 이미지들
-image jiwoo normal = ConditionSwitch("True", "images/jiwoo_padded/normal.png")
-image jiwoo smile = ConditionSwitch("True", "images/jiwoo_padded/smile.png")
-image jiwoo sad = ConditionSwitch("True", "images/jiwoo_padded/sad.png")
-image jiwoo angry = ConditionSwitch("True", "images/jiwoo_padded/angry.png")
-image jiwoo shy = ConditionSwitch("True", "images/jiwoo_padded/shy.png")
-image jiwoo surprised = ConditionSwitch("True", "images/jiwoo/surprised.png")
+# ---------------------------------------------------------
+# 역할 기반 캐릭터 이미지 (Dynamic)
+# ---------------------------------------------------------
+image dawon normal     = DynamicImage("character/[role_main]/normal.png")
+image dawon smile      = DynamicImage("character/[role_main]/smile.png")
+image dawon sad        = DynamicImage("character/[role_main]/sad.png")
+image dawon angry      = DynamicImage("character/[role_main]/angry.png")
+image dawon shy        = DynamicImage("character/[role_main]/shy.png")
+image dawon surprised  = DynamicImage("character/[role_main]/surprised.png")
 
-#수아 이미지들
-image suah normal = ConditionSwitch("True", "images/suah_padded/normal.png")
-image suah smile = ConditionSwitch("True", "images/suah_padded/smile.png")
-image suah sad = ConditionSwitch("True", "images/suah_padded/sad.png")
-image suah angry = ConditionSwitch("True", "images/suah_padded/angry.png")
-image suah shy = ConditionSwitch("True", "images/suah_padded/shy.png")
-image suah surprised = ConditionSwitch("True", "images/suah/surprised.png")
+image jiwoo normal     = DynamicImage("character/[role_side1]/normal.png")
+image jiwoo smile      = DynamicImage("character/[role_side1]/smile.png")
+image jiwoo sad        = DynamicImage("character/[role_side1]/sad.png")
+image jiwoo angry      = DynamicImage("character/[role_side1]/angry.png")
+image jiwoo shy        = DynamicImage("character/[role_side1]/shy.png")
+image jiwoo surprised  = DynamicImage("character/[role_side1]/surprised.png")
 
-#교수 이미지들
-image professor normal = ConditionSwitch("True", "images/professor/normal.png")
-image professor smile = ConditionSwitch("True", "images/professor/smile.png")
-image professor sad = ConditionSwitch("True", "images/professor/sad.png")
-image professor angry = ConditionSwitch("True", "images/professor/angry.png")
-image professor shy = ConditionSwitch("True", "images/professor/shy.png")
+image suah normal      = DynamicImage("character/[role_side2]/normal.png")
+image suah smile       = DynamicImage("character/[role_side2]/smile.png")
+image suah sad         = DynamicImage("character/[role_side2]/sad.png")
+image suah angry       = DynamicImage("character/[role_side2]/angry.png")
+image suah shy         = DynamicImage("character/[role_side2]/shy.png")
+image suah surprised   = DynamicImage("character/[role_side2]/surprised.png")
 
-#엔딩 이미지
+
+# ---------------------------------------------------------
+# 엔딩 이미지
+# ---------------------------------------------------------
 define normal_ending_image = "images/background/main_screen.png"
 define lab_ending_image = "images/background/lab_ending.png"
 define hobanwoo_angry_ending_image = "images/background/hobanwoo_angry_ending.png"

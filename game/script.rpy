@@ -1,4 +1,7 @@
 ﻿# script.rpy
+default temp_main = None
+default temp_side1 = None
+default temp_side2 = None
 
 # --- 초기화 ---
 init python:
@@ -7,6 +10,7 @@ init python:
     current_summary = ""
     current_aff = 0
     current_context = ""
+    
 
 # --- 게임 시작 ---
 label start:
@@ -22,5 +26,4 @@ label start:
     # 폰 기능 활성화
     show screen input_listener
 
-    jump talk_1
-    
+    jump character_introduction

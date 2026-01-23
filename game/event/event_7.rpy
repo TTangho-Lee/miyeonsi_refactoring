@@ -1,21 +1,21 @@
 label event_7:
     menu:
-        "[side2_char_name]의 손을 잡는다":
-            $ apply_affinity_change("sub_role2", 5)
+        "[character_1_name]의 손을 잡는다":
+            $ apply_affinity_change("character_1", 5)
             scene bg hand with dissolve
-            $ typing(sub_role2, "......")
+            $ typing(character_1, "......")
             jump talk_8
 
-        "[side1_char_name]의 손을 잡는다":
-            $ apply_affinity_change("sub_role1", 5)
+        "[character_2_name]의 손을 잡는다":
+            $ apply_affinity_change("character_2", 5)
             scene bg hand with dissolve
-            $ typing(sub_role1, ".......")
+            $ typing(character_2, ".......")
             jump talk_8
 
-        "[main_char_name]의 손을 잡는다":
-            $ apply_affinity_change("main_role", 5)
+        "[character_3_name]의 손을 잡는다":
+            $ apply_affinity_change("character_3", 5)
             scene bg hand with dissolve
-            $ typing(main_role, "......")
+            $ typing(character_3, "......")
             jump talk_8
 
         "아무것도 잡지 않는다":

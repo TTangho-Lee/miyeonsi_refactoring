@@ -1,21 +1,34 @@
 label bad_ending:
     # 1. 역할 슬롯별 호감도 비교 (중립 ID 사용)
     python:
-        char_affinities = {
-            "main_role": main_role_affinity,
-            "sub_role1": sub_role1_affinity,
-            "sub_role2": sub_role2_affinity,
+        # 슬롯별 데이터 묶기
+        characters = {
+            1: {
+                "id": character_1,
+                "name": character_1_name,
+                "aff": character_1_affinity,
+            },
+            2: {
+                "id": character_2,
+                "name": character_2_name,
+                "aff": character_2_affinity,
+            },
+            3: {
+                "id": character_3,
+                "name": character_3_name,
+                "aff": character_3_affinity,
+            },
         }
-        
-        # 최고 호감도 슬롯 결정
-        max_slot_id = max(char_affinities, key=char_affinities.get)
-        
-        # 해당 슬롯의 캐릭터 객체를 동적으로 가져옴
-        a = getattr(store, max_slot_id)
+
+        # 호감도가 가장 높은 슬롯 번호
+        max_id = max(characters, key=lambda k: characters[k]["aff"])
+
+        # 가장 호감도 높은 캐릭터 이름
+        a = characters[max_id]["id"]
     
     scene bg black with fade
     # 슬롯 ID를 사용하여 이미지 표시 (예: main_role surprised)
-    show expression "%s surprised" % max_slot_id
+    show expression "character_%s sad" % max_id
     
     $ typing(a, "너는 왜..")
     $ typing(a, "나와 [user_eulreul] 이어주지 않는거야?")

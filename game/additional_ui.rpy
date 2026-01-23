@@ -55,23 +55,23 @@ screen phone_overlay():
                         # 임다원
                         hbox:
                             spacing 10
-                            # [수정됨] 변수([dawon_name_ui])를 사용하여 이름 표시
-                            text "[dawon_name_ui]" color "#ffffff" size 18 yalign 0.5
-                            bar value dawon_affinity range 100 xysize (230, 20) style "blood_bar"
+                            # [수정됨] 변수([character_1_name_ui])를 사용하여 이름 표시
+                            text "[character_1_name_ui]" color "#ffffff" size 18 yalign 0.5
+                            bar value character_1_affinity range 100 xysize (230, 20) style "blood_bar"
 
                         # 홍지우
                         hbox:
                             spacing 10
                             # [수정됨] 변수 사용
-                            text "[jiwoo_name_ui]" color "#ffffff" size 18 yalign 0.5
-                            bar value jiwoo_affinity range 100 xysize (230, 20) style "blood_bar"
+                            text "[character_2_name_ui]" color "#ffffff" size 18 yalign 0.5
+                            bar value character_2_affinity range 100 xysize (230, 20) style "blood_bar"
 
                         # 윤수아
                         hbox:
                             spacing 10
                             # [수정됨] 변수 사용
-                            text "[suah_name_ui]" color "#ffffff" size 18 yalign 0.5
-                            bar value suah_affinity range 100 xysize (230, 20) style "blood_bar"
+                            text "[character_3_name_ui]" color "#ffffff" size 18 yalign 0.5
+                            bar value character_3_affinity range 100 xysize (230, 20) style "blood_bar"
 
                 null height 20
                 

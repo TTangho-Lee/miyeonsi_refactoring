@@ -1,26 +1,26 @@
 label lab_ending:
     scene bg lab
     # 역할 슬롯 ID를 사용하여 각 위치에 캐릭터 표시
-    show main_role normal at left
-    show sub_role1 normal at center
-    show sub_role2 normal at right
+    show character_1 normal at left
+    show character_2 normal at center
+    show character_3 normal at right
 
     # 메인 히로인 슬롯 대사
-    $ typing(main_role, "…그런 말 하면… 우리")
+    $ typing(character_1, "…그런 말 하면… 우리")
     
-    hide main_role normal with dissolve
+    hide character_1 normal with dissolve
     "지직—"
 
     # 서브 히로인 1 슬롯 대사
-    $ typing(sub_role1, "걱정… 하지… 마.")
+    $ typing(character_2, "걱정… 하지… 마.")
     
-    hide sub_role1 normal with dissolve
+    hide character_2 normal with dissolve
     "찌익—"
 
     # 서브 히로인 2 슬롯 대사
-    $ typing(sub_role2, "선배… 제발…")
+    $ typing(character_3, "선배… 제발…")
     
-    hide sub_role2 normal with dissolve
+    hide character_3 normal with dissolve
     "——신호 끊김——"
 
     scene black with fade

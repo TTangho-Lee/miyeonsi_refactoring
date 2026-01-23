@@ -22,27 +22,27 @@ label talk_1:
     $ send_notification("[메시지] 새로운 메시지가 도착하였습니다.")
     "휴대폰의 알람이 울렸다. [user_iga] 이 낯선 장소로 오기 전의 본인 것이 아닌, 처음 보는 휴대폰이었다."
 
-    # --- 4. 메인 캐릭터 등장 (슬롯: dawon) ---
-    show dawon normal at center with moveinright
-    $ typing(dawon_blind, "어이, [user]. 언제까지 잘 거야?") # dawon_blind는 ???로 표시됨
+    # --- 4. 메인 캐릭터 등장 (슬롯: character_1) ---
+    show character_1 normal at left with moveinright
+    $ typing(character_1_blind, "어이, [user]. 언제까지 잘 거야?") # character_1_blind는 ???로 표시됨
     $ typing(user, "미안 사실은 내가 사람을 잘 기억못해..")
-    $ typing(dawon_blind, "우리 어제 연구실 회식 때 옆자리였잖아, 내 이름도 물어보고선.")
+    $ typing(character_1_blind, "우리 어제 연구실 회식 때 옆자리였잖아, 내 이름도 물어보고선.")
     $ typing(user, "내가 좀 취했었나봐, 이름 좀 ...")
     
     # 선택된 메인 캐릭터의 실제 이름을 출력 [cite: 23]
-    $ dawon_name_ui = main_char_name  # 휴대폰 UI 이름 동기화
-    $ typing(dawon, "내 이름은 " + main_char_name + "이야.") 
-    $ apply_affinity_change("dawon", 30)
+    $ character_1_name_ui = character_1_name  # 휴대폰 UI 이름 동기화
+    $ typing(character_1, "내 이름은 " + character_1_name + "이야.") 
+    $ apply_affinity_change("character_1", 30)
 
     # --- 5. KNUAI 알림 & 호감도 UI 연동 ---
     "'띠링'"
     play sound "audio/notification.ogg"
     "휴대폰의 알람이 다시 울렸다. 아까 들어온 알림을 클릭하자 새로운 창이 떴다."
     # 선택된 캐릭터의 이름이 알림창에 동적으로 표시됨 
-    $ send_notification(f"**'{main_char_name}'**의 호감도를 확인하시겠습니까?")
+    $ send_notification(f"**'{character_1_name}'**의 호감도를 확인하시겠습니까?")
     
     $ typing(user, "tlqkf 이게 뭐야")
-    $ typing(dawon, "갑자기 왜 욕해?")
+    $ typing(character_1, "갑자기 왜 욕해?")
     $ typing(user, "아 미안, 약간 감탄사야.")
     
     "일단 누르고 보는 [user], 버튼을 클릭하자 핸드폰 화면이 나타났다."
@@ -51,9 +51,9 @@ label talk_1:
     hide screen phone_overlay
     
     # --- 6. 시나리오 대사 계속 ---
-    $ typing(dawon, "너 교수님이 써오라 하신 논문, 어떻게 돼 가는데? 저번 주부터 막막해하더니.")
+    $ typing(character_1, "너 교수님이 써오라 하신 논문, 어떻게 돼 가는데? 저번 주부터 막막해하더니.")
     $ typing(user, "나 논문 써야 해?")
-    $ typing(dawon, "그럼 안 써?")
+    $ typing(character_1, "그럼 안 써?")
     $ typing(user, "어.. (아니 애초에 지금 이 상황이 이해도 안 되는데)")
     
     jump event_1

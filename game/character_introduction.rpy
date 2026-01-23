@@ -28,25 +28,25 @@ label character_introduction:
             renpy.hide(cid)
             renpy.with_statement(fade)
 
-    jump select_main_character
+    jump select_character_1
 
 # ---------------------------------------------------------
 # 캐릭터 선택 화면 및 로직
 # ---------------------------------------------------------
 
-label select_main_character:
-    $ temp_main = None
-    call screen select_main_character_screen
-    jump select_side1_character
+label select_character_1:
+    $ temp_character_1 = None
+    call screen select_character_1_screen
+    jump select_character_2
 
-label select_side1_character:
-    $ temp_side1 = None
-    call screen select_side1_character_screen
-    jump select_side2_character
+label select_character_2:
+    $ temp_character_2 = None
+    call screen select_character_2_screen
+    jump select_character_3
 
-label select_side2_character:
-    $ temp_side2 = None
-    call screen select_side2_character_screen
+label select_character_3:
+    $ temp_character_3 = None
+    call screen select_character_3_screen
     jump apply_character_selection
 
 # ---------------------------------------------------------
@@ -56,24 +56,24 @@ label select_side2_character:
 label apply_character_selection:
     python:
         # [1] 역할 ID 할당 (이미지 경로 결정)
-        role_main  = temp_main
-        role_side1 = temp_side1
-        role_side2 = temp_side2
+        character_1_id = temp_main
+        character_2_id = temp_side1
+        character_3_id = temp_side2
 
         # [2] 실제 이름 할당 (대사창 이름 표시)
-        main_char_name  = all_characters[role_main]["name"]
-        side1_char_name = all_characters[role_side1]["name"]
-        side2_char_name = all_characters[role_side2]["name"]
+        character_1_name  = all_characters[character_1_id]["name"]
+        character_2_name = all_characters[character_2_id]["name"]
+        character_3_name = all_characters[character_3_id]["name"]
 
         # [3] AI 시스템 프롬프트 로드 (말투 및 성격 결정)
-        system_prompt_dawon = all_characters[role_main]["prompt"]
-        system_prompt_jiwoo = all_characters[role_side1]["prompt"]
-        system_prompt_suah  = all_characters[role_side2]["prompt"]
+        system_prompt_character_1 = all_characters[character_1_id]["prompt"]
+        system_prompt_character_2 = all_characters[character_2_id]["prompt"]
+        system_prompt_character_3  = all_characters[character_3_id]["prompt"]
 
         # [4] 휴대폰 UI 이름 변수 동기화
-        dawon_name_ui = "???"
-        jiwoo_name_ui = "???"
-        suah_name_ui  = "???"
+        character_1_name_ui = "???"
+        character_2_name_ui = "???"
+        character_3_name_ui  = "???"
 
     "캐릭터 설정이 완료되었습니다. 게임을 시작합니다."
     
@@ -83,7 +83,7 @@ label apply_character_selection:
 # 선택용 스크린 정의
 # ---------------------------------------------------------
 
-screen select_main_character_screen():
+screen select_character_1_screen():
     style_prefix "select_char"
     text "메인 캐릭터를 선택하세요" xalign 0.5 ypos 100 size 50
 
@@ -99,7 +99,7 @@ screen select_main_character_screen():
                     action [ SetVariable("temp_main", cid), Return() ]
                 text c["name"] xalign 0.5 size 30
 
-screen select_side1_character_screen():
+screen select_character_2_screen():
     style_prefix "select_char"
     text "서브 캐릭터 1을 선택하세요" xalign 0.5 ypos 100 size 50
 
@@ -116,7 +116,7 @@ screen select_side1_character_screen():
                         action [ SetVariable("temp_side1", cid), Return() ]
                     text c["name"] xalign 0.5 size 30
 
-screen select_side2_character_screen():
+screen select_character_3_screen():
     style_prefix "select_char"
     text "서브 캐릭터 2를 선택하세요" xalign 0.5 ypos 100 size 50
 

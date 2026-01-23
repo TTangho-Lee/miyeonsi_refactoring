@@ -1,15 +1,15 @@
 init python:
 
     def apply_affinity_change(name,delta):
-        global dawon_affinity, jiwoo_affinity, suah_affinity, hobanwoo_affinity, professor_affinity
+        global character_1_affinity, character_2_affinity, character_3_affinity, hobanwoo_affinity, professor_affinity
         if delta is None:
             return
-        if name == "dawon":
-            dawon_affinity = max(0, min(100, dawon_affinity + delta))
-        elif name == "jiwoo":
-            jiwoo_affinity = max(0, min(100, jiwoo_affinity + delta))
-        elif name == "suah":
-            suah_affinity = max(0, min(100, suah_affinity + delta))
+        if name == "character_1":
+            character_1_affinity = max(0, min(100, character_1_affinity + delta))
+        elif name == "character_2":
+            character_2_affinity = max(0, min(100, character_2_affinity + delta))
+        elif name == "character_3":
+            character_3_affinity = max(0, min(100, character_3_affinity + delta))
         elif name == "hobanwoo":
             hobanwoo_affinity = max(0, min(100, hobanwoo_affinity + delta))
         elif name=="professor":

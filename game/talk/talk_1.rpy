@@ -56,4 +56,4 @@ label talk_1:
     $ typing(dawon, "그럼 안 써?")
     $ typing(user, "어.. (아니 애초에 지금 이 상황이 이해도 안 되는데)")
     
-    jump talk_2
+    jump event_1

@@ -19,4 +19,4 @@ label talk_4:
     $ exit_pressed = renpy.call_screen("phone_overlay")
 
     # --- 3. 다음 장면으로 이동 ---
-    jump talk_5
+    jump event_4

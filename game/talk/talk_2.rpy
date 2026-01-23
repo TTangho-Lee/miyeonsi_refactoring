@@ -30,4 +30,4 @@ label talk_2:
     $ apply_affinity_change("suah", 30)
     $ typing(suah, "저녁 드시러 가실 거죠? 제가 맛있는 데 알아놨는데!")
 
-    jump talk_3
+    jump event_2

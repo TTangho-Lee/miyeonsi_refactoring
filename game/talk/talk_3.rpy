@@ -27,4 +27,4 @@ label talk_3:
     $ typing(jiwoo, "[user] 있는지 모르고 내 것랑 얘 것만 사 왔네. 다음에 사줄게!")
     $ typing(user, "아니에요, 괜찮습니다.")
 
-    jump talk_4
+    jump event_3

@@ -1,5 +1,5 @@
 init python:
-    def talk_loop(charactor, finish_condition, max_turn=-1, last_char_line=""):
+    def talk_loop(charactor, finish_condition, max_turn=3, last_char_line=""):
         global player_name, character_1_affinity, character_2_affinity, character_3_affinity, professor_affinity
         global character_1_prompt, character_2_prompt, character_3_prompt, system_prompt_professor
         emotion_map = {

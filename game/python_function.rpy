@@ -80,4 +80,18 @@ init python:
     def typing(charactor, sentence):
         renpy.say(charactor, f"{{cps=[text_speed]}}{sentence}{{/cps}}")
 
+    def a(name):
+        return "아" if is_jong(name) else "야"
+    
+    #조사 처리 여부
+    def iya(name):
+        # 받침이 있으면 "이야", 없으면 "야"
+        return "이야" if is_jong(name) else "야"
 
+    def ieyo(name):
+        # 받침이 있으면 "이에요", 없으면 "예요"
+        return "이에요" if is_jong(name) else "예요"
+
+    def irago(name):
+        # 받침이 있으면 "이라고", 없으면 "라고"
+        return "이라고" if is_jong(name) else "라고"

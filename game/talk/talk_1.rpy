@@ -31,7 +31,8 @@ label talk_1:
     
     # 선택된 메인 캐릭터의 실제 이름을 출력 [cite: 23]
     $ character_1_name_ui = character_1_name  # 휴대폰 UI 이름 동기화
-    $ typing(character_1, "내 이름은 " + character_1_name + "이야.") 
+    # f-string을 사용하여 중괄호 {} 안에 변수명과 함수를 넣습니다.
+    $ typing(character_1, f"내 이름은 {character_1_name}{iya(character_1_name)}.")
     $ apply_affinity_change("character_1", 30)
 
     # --- 5. KNUAI 알림 & 호감도 UI 연동 ---

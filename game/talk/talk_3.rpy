@@ -21,7 +21,7 @@ label talk_3:
     $ typing(user, "안녕하세요.")
     # 서브 캐릭터 1의 실제 이름으로 정체 고정 [cite: 24]
     $ character_3_name_ui = character_3_name  # 휴대폰 UI 이름 동기화
-    $ typing(character_3, "나는 " + character_3_name + "라고 해.")
+    $ typing(character_3, f"나는 {character_3_name}{irago(character_3_name)} 해.")
     $ apply_affinity_change("character_3", 30)
 
     $ typing(character_3, "[user] 있는지 모르고 내 것랑 얘 것만 사 왔네. 다음에 사줄게!")

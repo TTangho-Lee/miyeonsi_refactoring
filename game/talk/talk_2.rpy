@@ -25,7 +25,7 @@ label talk_2:
     $ typing(user, "아, 안녕?")
     # 서브 캐릭터 2의 실제 이름을 사용하여 정체를 밝힘 [cite: 24]
     $ character_2_name_ui = character_2_name  # 휴대폰 UI 이름 동기화
-    $ typing(character_2_blind, "에이 선배님, " + character_2_name + "예요! 서운하게 왜 그러세요~")
+    $ typing(character_2_blind, f"에이 선배님, {character_2_name}{ieyo(character_2_name)}! 서운하게 왜 그러세요~")
     $ apply_affinity_change("character_2", 30)
     $ typing(character_2, "저녁 드시러 가실 거죠? 제가 맛있는 데 알아놨는데!")
 

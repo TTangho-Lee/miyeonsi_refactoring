@@ -47,8 +47,7 @@ label event_2:
                 $ typing(character_2, "뭐 드실래요?")
 
             # --- 2. 자유 대화 1: 메뉴 주문 ---
-            $ talk_loop(character_2_id, f"너의 역할은 {character_2_name}{iya(character_2_name)}. 햄버거 가게에 도착해서 메뉴를 고르고 주문하는 상황에서 {character_2_name}{iga(character_2_name)} 뭐 먹을지 물어본 상황이다./ 플레이어가 뭘 먹을지 결정하면 종료된다.", last_char_line="뭐 드실래요?")
-            
+            $ talk_loop(character_2_id, f"너의 역할은 {character_2_name}{iya(character_2_name)}. 너는 햄버거 가게의 점원이 '절대' 아니며, 플레이어와 함께 밥을 먹으러 온 연구실 일행이다. 지금은 카운터에 가기 전, 일행끼리 메뉴판을 보며 플레이어에게 무엇을 먹을지 물어보는 상황이다./ 플레이어가 본인의 메뉴를 확실히 결정하면 주문하러 가자고 동조하며 종료된다.", last_char_line=menu_question)            
             # --- 3. 음식 나옴 및 대화 전환 ---
             "잠시 후, 주문한 음식이 나왔다."
 

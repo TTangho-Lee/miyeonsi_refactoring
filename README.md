@@ -62,66 +62,66 @@
 더 나아가, 유저가 직접 캐릭터를 제작하고 공유하는 ‘**마켓플레이스**’ 기능을 도입하여 게임의 확장성을 극대화할 계획입니다. 유저가 소비자이자 생산자가 되는 선순환 구조를 통해, 개발사의 지속적인 개입 없이도 끊임없이 새로운 콘텐츠가 생성되는 플랫폼으로 발전할 것입니다.
 
 ## 📁 `미리보는 연구실 시뮬레이션` 프로젝트 구조 요약
-```text`
+
 LAB_SIMULATION/
 │
-│  additional_ui.rpy             # 추가 UI/스크린 정의
-│  a_secret_key.rpy              # API 키/민감 정보 관리 (실 배포 시 제외 필요)
-│  charactor_definition.rpy      # 캐릭터 정보 및 기본 설정
-│  gemini_api.rpy                # Gemini API 연동 로직
-│  gui.rpy                       # GUI 스타일 및 설정
-│  options.rpy                   # 해상도/환경설정 등 옵션 정의
-│  python_function.rpy           # 게임 내부에서 사용하는 Python 함수 모음
-│  screens.rpy                   # 메인 메뉴 및 각종 화면(Screen) 정의
-│  script.rpy                    # 게임 메인 루트 스크립트
-│  SourceHanSansLite.ttf         # 게임에서 사용하는 폰트
-│  talk_loop.rpy                 # 대화 루프 메인 로직
-│  talk_loop_all_charactor.rpy   # 모든 캐릭터 대화 루프 통합 스크립트
+│ additional_ui.rpy # 추가 UI/스크린 정의
+│ a_secret_key.rpy # API 키/민감 정보 관리 (실 배포 시 제외 필요)
+│ charactor_definition.rpy # 캐릭터 정보 및 기본 설정
+│ gemini_api.rpy # Gemini API 연동 로직
+│ gui.rpy # GUI 스타일 및 설정
+│ options.rpy # 해상도/환경설정 등 옵션 정의
+│ python_function.rpy # 게임 내부 Python 함수 모음
+│ screens.rpy # 메인 메뉴 및 화면 정의
+│ script.rpy # 게임 메인 루트 스크립트
+│ SourceHanSansLite.ttf # 게임 폰트
+│ talk_loop.rpy # 대화 루프 메인 로직
+│ talk_loop_all_charactor.rpy # 전체 캐릭터 대화 루프
 │
-├─ cache/                        # Ren'Py 캐시 및 빌드 파일
+├─ cache/ # Ren'Py 캐시
 │
-├─ endding/                      # 🎬 엔딩 시나리오 스크립트 모음
-│   ├─ bad_ending.rpy
-│   ├─ dream_ending.rpy
-│   ├─ endding_choice.rpy
-│   ├─ happy_ending.rpy
-│   └─ ...
+├─ endding/ # 🎬 엔딩 시나리오
+│ ├─ bad_ending.rpy
+│ ├─ dream_ending.rpy
+│ ├─ endding_choice.rpy
+│ └─ happy_ending.rpy
 │
-├─ event/                        # 🗓️ 주요 이벤트 및 고정 씬
-│   ├─ event_1.rpy
-│   ├─ event_2.rpy
-│   └─ ...
+├─ event/ # 🗓️ 이벤트 스크립트
+│ ├─ event_1.rpy
+│ └─ event_2.rpy
 │
-├─ gui/                          # 🖼️ UI 이미지 리소스
-│   ├─ bubble.png
-│   ├─ frame.png
-│   ├─ textbox.png
-│   └─ ...
+├─ gui/ # 🖼️ UI 리소스
+│ ├─ bubble.png
+│ ├─ frame.png
+│ └─ textbox.png
 │
-├─ images/                       # 🎨 배경 및 캐릭터 이미지
-│   ├─ background/
-│   ├─ dawon/
-│   ├─ jiwoo/
-│   ├─ professor/
-│   ├─ suah/
-│   └─ user/
+├─ images/ # 🎨 배경 및 캐릭터 이미지
+│ ├─ background/
+│ ├─ dawon/
+│ ├─ jiwoo/
+│ ├─ professor/
+│ ├─ suah/
+│ └─ user/
 │
-├─ libs/                         # 외부 라이브러리 및 DLL
+├─ libs/ # 외부 라이브러리
 │
-├─ saves/                        # 💾 세이브 및 persistent 데이터
+├─ saves/ # 💾 세이브 데이터
 │
-├─ talk/                         # 일반 대화 스크립트
-│   ├─ talk_1.rpy
-│   ├─ talk_2.rpy
-│   └─ ...
+├─ talk/ # 일반 대화 스크립트
+│ ├─ talk_1.rpy
+│ └─ talk_2.rpy
 │
-└─ tl/                           # 🌍 번역 파일
-    └─ None/
-        ├─ common.rpym
-        └─ common.rpymc
+└─ tl/ # 🌍 번역 파일
+└─ None/
+├─ common.rpym
+└─ common.rpymc
 
+---
 
-## 이름,직책 (Role),상세 담당 업무 (Responsibilities)
-이승호,System Architect& AI Engineer,"• LLM API 파이프라인 구축: Ren'Py와 Gemini 간 실시간 통신 로직 구현• Backend Logic: 하이브리드 대화, 동적 슬롯 시스템 및 프롬프트 주입 로직 개발"
-배명우,Client Engineer& UI/UX Design,• In-Game Interface 구현: KNUAI 스마트폰 오버레이 및 실시간 게이지 시스템 개발• Screen Language Scripting: 캐릭터 선택 창 및 동적 UI/UX 설계
-신유민,Creative Director& Narrative Design,"• Scenario Writing: 메인 스토리라인, 멀티 엔딩 분기 및 메타픽션 서사 기획• World Building: 세계관 구축 및 캐릭터별 페르소나 설정 데이터베이스화"
+## 👥 Team
+
+| Name | Role | Responsibilities |
+|-----|-----|-----|
+| **이승호** | System Architect & AI Engineer | LLM API 파이프라인 구축, Ren'Py–Gemini 실시간 통신 로직 구현, 하이브리드 대화 및 프롬프트 주입 로직 개발 |
+| **배명우** | Client Engineer & UI/UX Design | In-Game Interface 구현 (KNUAI 스마트폰 UI), 실시간 게이지 시스템 개발, 캐릭터 선택 UI 설계 |
+| **신유민** | Creative Director & Narrative Design | 메인 스토리라인 작성, 멀티 엔딩 설계, 세계관 및 캐릭터 페르소나 구축 |

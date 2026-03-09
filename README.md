@@ -41,13 +41,11 @@
     - Ren'Py & Python 연동: `requests` 라이브러리를 활용한 실시간 Gemini 서버 통신 파이프라인 구축.
     - 프롬프트 엔지니어링: 캐릭터별 고유 성격/말투 및 상황별 시나리오 학습.
 
-### ② 🎭 실시간 감정 분석 및 표정 연출
+### ② 🎭 자유로운 캐릭터 캐스팅 및 동적 페르소나
 
-Gemini API가 유저 입력 텍스트의 감정(긍정/부정/의심 등)을 실시간 분석하여 -5 ~ +5 사이의 호감도 점수로 환산합니다.
+게임 시작 전, 유저가 직접 5명의 캐릭터 중 메인 히로인과 서브 히로인을 선택하여 역할(Slot)에 배치합니다.
 
-- 동적 상호작용: 호감도 수치에 따라 캐릭터의 표정이 변경됩니다. (웃음, 정색, 두려움 등)
-- ⚙️ 구현 기술:
-    - LLM 감정 분석 프롬프트을 활용해 추출한 감정을 `talk_loop.rpy` 에서 받아 이미지 변경 로직 호출.
+동적 상호작용: 선택된 캐릭터의 나이와 성격(동갑, 연상, 연하)이 AI 프롬프트에 실시간 주입되며, 스크립트 내 고정 대사들 역시 캐릭터 이름의 받침 유무(은/는, 이/가)에 따라 한국어 문법이 자동으로 변환되어 완벽한 몰입을 제공합니다.
 
 ### ③ 📱 KNUAI 인게임 스마트폰
 
@@ -123,17 +121,8 @@ LAB_SIMULATION/
         └─ common.rpymc
 
 
-## **👥 팀 소개**
-이름	직책 (Role)	상세 담당 업무 (Responsibilities)
-이승호	System Architect
-& AI Engineer	• LLM API 파이프라인 구축: Ren'Py와 Gemini 간 실시간 통신 로직 구현
-• Backend Logic: JSON 데이터 파싱 및 게임 내 변수(호감도) 연동 로직 개발
-배명우	Client Engineer
-& UI/UX Design	• In-Game Interface 구현: KNUAI 스마트폰 오버레이 및 실시간 게이지 시스템 개발
-• Screen Language Scripting: Ren'Py 스크린 언어를 활용한 동적 UI/UX 설계
-신유민	Creative Director
-& Narrative Design	• Scenario Writing: 메인 스토리라인, 멀티 엔딩 분기 및 메타픽션 서사 기획
-• World Building: 세계관 및 캐릭터 설정 데이터베이스 구축
-허신행	Project Manager
-& Game Planner	• Game Concept Design: 총괄 디렉션, 게임의 핵심 재미 요소 기획 및 아이디어 구체화
-• Quality Assurance (QA): 버그 리포팅 및 사용자 경험(UX) 피드백 제공
+이름,직책 (Role),상세 담당 업무 (Responsibilities)
+이승호,System Architect& AI Engineer,"• LLM API 파이프라인 구축: Ren'Py와 Gemini 간 실시간 통신 로직 구현• Backend Logic: 하이브리드 대화, 동적 슬롯 시스템 및 프롬프트 주입 로직 개발"
+배명우,Client Engineer& UI/UX Design,• In-Game Interface 구현: KNUAI 스마트폰 오버레이 및 실시간 게이지 시스템 개발• Screen Language Scripting: 캐릭터 선택 창 및 동적 UI/UX 설계
+신유민,Creative Director& Narrative Design,"• Scenario Writing: 메인 스토리라인, 멀티 엔딩 분기 및 메타픽션 서사 기획• World Building: 세계관 구축 및 캐릭터별 페르소나 설정 데이터베이스화"
+허신행,Project Manager& Game Planner,• Game Concept Design: 픽(Pick) 시스템 기획 등 핵심 재미 요소 아이디어 구체화• Quality Assurance (QA): 버그 리포팅 및 한국어 조사 예외 처리 검수/피드백

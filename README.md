@@ -61,8 +61,18 @@
 
 더 나아가, 유저가 직접 캐릭터를 제작하고 공유하는 ‘**마켓플레이스**’ 기능을 도입하여 게임의 확장성을 극대화할 계획입니다. 유저가 소비자이자 생산자가 되는 선순환 구조를 통해, 개발사의 지속적인 개입 없이도 끊임없이 새로운 콘텐츠가 생성되는 플랫폼으로 발전할 것입니다.
 
-## 📁 `미리보는 연구실 시뮬레이션` 프로젝트 구조 요약
 
+## 👥 Team
+
+| Name | Role | Responsibilities |
+|-----|-----|-----|
+| **이승호** | System Architect & AI Engineer | LLM API 파이프라인 구축, Ren'Py–Gemini 실시간 통신 로직 구현, 하이브리드 대화 및 프롬프트 주입 로직 개발 |
+| **배명우** | Client Engineer & UI/UX Design | In-Game Interface 구현 (KNUAI 스마트폰 UI), 실시간 게이지 시스템 개발, 캐릭터 선택 UI 설계 |
+| **신유민** | Creative Director & Narrative Design | 메인 스토리라인 작성, 멀티 엔딩 설계, 세계관 및 캐릭터 페르소나 구축 |
+
+
+## 📁 `미리보는 연구실 시뮬레이션` 프로젝트 구조 요약
+```text
 LAB_SIMULATION/
 │
 │ additional_ui.rpy # 추가 UI/스크린 정의
@@ -115,13 +125,3 @@ LAB_SIMULATION/
 └─ None/
 ├─ common.rpym
 └─ common.rpymc
-
----
-
-## 👥 Team
-
-| Name | Role | Responsibilities |
-|-----|-----|-----|
-| **이승호** | System Architect & AI Engineer | LLM API 파이프라인 구축, Ren'Py–Gemini 실시간 통신 로직 구현, 하이브리드 대화 및 프롬프트 주입 로직 개발 |
-| **배명우** | Client Engineer & UI/UX Design | In-Game Interface 구현 (KNUAI 스마트폰 UI), 실시간 게이지 시스템 개발, 캐릭터 선택 UI 설계 |
-| **신유민** | Creative Director & Narrative Design | 메인 스토리라인 작성, 멀티 엔딩 설계, 세계관 및 캐릭터 페르소나 구축 |

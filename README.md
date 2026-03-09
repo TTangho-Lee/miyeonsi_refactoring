@@ -120,9 +120,7 @@ LAB_SIMULATION/
         ├─ common.rpym
         └─ common.rpymc
 
-
 이름,직책 (Role),상세 담당 업무 (Responsibilities)
 이승호,System Architect& AI Engineer,"• LLM API 파이프라인 구축: Ren'Py와 Gemini 간 실시간 통신 로직 구현• Backend Logic: 하이브리드 대화, 동적 슬롯 시스템 및 프롬프트 주입 로직 개발"
 배명우,Client Engineer& UI/UX Design,• In-Game Interface 구현: KNUAI 스마트폰 오버레이 및 실시간 게이지 시스템 개발• Screen Language Scripting: 캐릭터 선택 창 및 동적 UI/UX 설계
 신유민,Creative Director& Narrative Design,"• Scenario Writing: 메인 스토리라인, 멀티 엔딩 분기 및 메타픽션 서사 기획• World Building: 세계관 구축 및 캐릭터별 페르소나 설정 데이터베이스화"
-허신행,Project Manager& Game Planner,• Game Concept Design: 픽(Pick) 시스템 기획 등 핵심 재미 요소 아이디어 구체화• Quality Assurance (QA): 버그 리포팅 및 한국어 조사 예외 처리 검수/피드백

@@ -1,28 +1,42 @@
 label event_1:
-    # [main_role] 슬롯과 [main_char_name] 변수를 사용하여 동적 처리
-    $ talk_loop(character_1_id, "너의 역할은 [character_1_name]이야. 플레이어가 논문의 파일이 어디있는지 찾는걸 도와달라고 묻는 상황에서 [character_1_name]이 \"도와줄까?\"라고 물어본 상황이다. 파일은 플레이어의 USB에 있지만, 플레이어는 USB에 파일이 있는지 모르는 상황이다. 어디있는지는 절대로 말을 하지 않고 플레이어가 말한 내용에 맞춰서 대꾸만 해야한다./ 플레이어가 도와달라는 뉘앙스로 말을 하면 '그래'라는 말을 한 직후 종료된다.", last_char_line="도와줄까?")
+    # ----------------------------------------------------
+    # [수정] 1. 캐릭터 나이/성격에 맞는 '도움 제안' 대사 및 관계 설정
+    # ----------------------------------------------------
+    if character_1_id in ["dawon", "jiwoo"]:
+        $ offer_help = "내가 좀 찾아줄까?"
+        $ relationship_prompt = "너는 플레이어와 편하게 반말을 하는 사이(동갑 또는 편한 연상)이다."
+    else:
+        $ offer_help = "선배님, 제가 같이 찾아드릴까요?"
+        $ relationship_prompt = "너는 플레이어의 싹싹한 연구실 후배이며, 플레이어에게 '선배님'이라고 부르고 무조건 존댓말을 쓴다."
+
+    # 화면에 첫 마디 출력
+    $ typing(character_1, offer_help)
+
+    # ----------------------------------------------------
+    # [수정] 2. f-string 적용 및 프롬프트 명확화 (주객전도 방지)
+    # ----------------------------------------------------
+    $ talk_loop(character_1_id, f"너의 이름은 {character_1_name}이다. {relationship_prompt} 현재 플레이어는 교수님이 지시한 논문 파일이 어디 있는지 몰라 당황하며 찾고 있는 상황이다. 너는 플레이어의 조력자로서 방금 '{offer_help}'라고 물어보았다. 절대 플레이어의 역할을 빼앗지 마라. 논문 파일이 플레이어의 USB에 있다는 것을 알고 있지만 바로 정답을 말해주지 말고, 플레이어가 명확하게 도와달라고 요청할 때까지 능청스럽게 맞장구만 쳐라./ 플레이어가 명확하게 도움을 요청하면 '그래' 또는 '알겠습니다' 등 수락하는 말을 한 직후 대화를 종료하라.", last_char_line=offer_help)
+    
     show character_1 normal at left
+    
+    # ----------------------------------------------------
+    # [수정] 3. 파일 위치 힌트 주기 (연하 캐릭터 통합)
+    # ----------------------------------------------------
     if character_1_id == "dawon":
         # 동갑내기 친구 / 털털한 성격
         $ typing(character_1, "너 USB 완전 신 모시듯 가지고 있었잖아. 거기 있는 거 아니야?")
         
     elif character_1_id == "jiwoo":
         # 연상 / 누나, 언니 같은 다정한 성격
-        $ typing(character_1, f"{player_name}{iya(player_name)}, 너 USB 엄청 끔찍하게 아끼잖아. 거기에 둔 거 아니야?")
+        # [수정] 지우 대사에 있던 잘못된 {iya}를 호격 조사 {a}로 변경
+        $ typing(character_1, f"{player_name}{a(player_name)}, 너 USB 엄청 끔찍하게 아끼잖아. 거기에 둔 거 아니야?")
         
-    elif character_1_id == "suah":
+    elif character_1_id in ["suah", "yeji", "huieun"]:
         # 연하 / 싹싹하고 발랄한 후배 성격
         $ typing(character_1, "선배님 USB 완전 소중하게 챙기시잖아요! 혹시 거기에 있는 거 아닐까요?")
-    
-    elif character_1_id == "yeji":
-        # 연하 / 싹싹하고 발랄한 후배 성격
-        $ typing(character_1, "선배님 USB 완전 소중하게 챙기시잖아요! 혹시 거기에 있는 거 아닐까요?")
-    
-    elif character_1_id == "huieun":
-        # 연하 / 싹싹하고 발랄한 후배 성격
-        $ typing(character_1, "선배님 USB 완전 소중하게 챙기시잖아요! 혹시 거기에 있는 거 아닐까요?")
-    
+        
     else:
         # 혹시 모를 예외 상황을 위한 기본 대사
         $ typing(character_1, "너 USB 완전 신 모시듯 가지고 있었잖아. 거기 있는 거 아니야?")
+        
     jump talk_2

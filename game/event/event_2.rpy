@@ -6,25 +6,25 @@ label event_2:
             $ send_notification(f"{character_2_name} 호감도 +4 (현재: {character_2_affinity})")
 
             # character_1이 character_2에게 질문
-            $ typing(character_1, f"{character_2_name}{a(character_2_name)}, 먹고 싶은 거 없어?")
+            # $ typing(character_1, f"{character_2_name}{a(character_2_name)}, 먹고 싶은 거 없어?")
 
             # ----------------------------------------------------
             # 분기 1: character_2가 대답 ("저, 햄버거요!")
-            # ----------------------------------------------------
-            if character_2_id == "dawon":
-                $ typing(character_2, "난 햄버거!")
-            elif character_2_id == "jiwoo":
-                $ typing(character_2, "음~ 난 햄버거 먹을래!")
-            elif character_2_id == "suah":
-                $ typing(character_2, "저, 햄버거요!")
-            elif character_2_id == "yeji":
-                $ typing(character_2, "저는 무조건 햄버거 세트요!")
-            elif character_2_id == "huieun":
-                $ typing(character_2, "저 햄버거 엄청 땡겨요!")
-            else:
-                $ typing(character_2, "저, 햄버거요!")
+            #    ----------------------------------------------------
+            #if character_2_id == "dawon":
+            #   $ typing(character_2, "난 햄버거!")
+            #elif character_2_id == "jiwoo":
+            #    $ typing(character_2, "음~ 난 햄버거 먹을래!")
+            #elif character_2_id == "suah":
+            #    $ typing(character_2, "저, 햄버거요!")
+            #elif character_2_id == "yeji":
+            #    $ typing(character_2, "저는 무조건 햄버거 세트요!")
+            #elif character_2_id == "huieun":
+            #    $ typing(character_2, "저 햄버거 엄청 땡겨요!")
+            #else:
+            #    $ typing(character_2, "저, 햄버거요!")
 
-            $ typing(user, "그러자.")
+            $ typing(user, "그럼 가볼까?.")
             
             scene bg restaurant with fade
             "식당에 도착했다."
@@ -34,25 +34,40 @@ label event_2:
             # 분기 2: character_2가 플레이어에게 되물음 ("뭐 드실래요?")
             # ----------------------------------------------------
             if character_2_id == "dawon":
-                $ typing(character_2, f"{player_name}{eunneun(player_name)} 뭐 먹을래?")
+                $ menu_question = f"{player_name}{eunneun(player_name)} 뭐 먹을래?"
             elif character_2_id == "jiwoo":
-                $ typing(character_2, f"{player_name}{eunneun(player_name)} 뭐 먹고 싶어?")
+                $ menu_question = f"{player_name}{eunneun(player_name)} 뭐 먹고 싶어?"
             elif character_2_id == "suah":
-                $ typing(character_2, "선배님은 뭐 드실래요?")
+                $ menu_question = "선배님은 뭐 드실래요?"
             elif character_2_id == "yeji":
-                $ typing(character_2, "선배님은 뭐 드시고 싶으세요?")
+                $ menu_question = "선배님은 뭐 드시고 싶으세요?"
             elif character_2_id == "huieun":
-                $ typing(character_2, "선배님 메뉴는 고르셨어요?")
+                $ menu_question = "선배님 메뉴는 고르셨어요?"
             else:
-                $ typing(character_2, "뭐 드실래요?")
+                $ menu_question = "뭐 드실래요?"
+
+            $ typing(character_2, menu_question)
 
             # --- 2. 자유 대화 1: 메뉴 주문 ---
             $ talk_loop(character_2_id, f"너의 역할은 {character_2_name}{iya(character_2_name)}. 너는 햄버거 가게의 점원이 '절대' 아니며, 플레이어와 함께 밥을 먹으러 온 연구실 일행이다. 지금은 카운터에 가기 전, 일행끼리 메뉴판을 보며 플레이어에게 무엇을 먹을지 물어보는 상황이다./ 플레이어가 본인의 메뉴를 확실히 결정하면 주문하러 가자고 동조하며 종료된다.", last_char_line=menu_question)            
+            
             # --- 3. 음식 나옴 및 대화 전환 ---
             "잠시 후, 주문한 음식이 나왔다."
 
+            # ----------------------------------------------------
+            # 분기 2.5: 방과 후 일정 묻는 대사 (에러 났던 부분 수정 완료!)
+            # ----------------------------------------------------
+            if character_2_id in ["dawon", "jiwoo"]:
+                $ schedule_question = "너희는 오늘 끝나고 뭐 해? 따로 일정 있어?"
+            else:
+                $ schedule_question = "선배님들은 오늘 끝나고 뭐하세요? 일정 따로 있으세요?"
+
+            # 화면에 대사를 먼저 출력합니다.
+            $ typing(character_2, schedule_question)
+
             # --- 4. 자유 대화 2: 방과 후 일정 ---
-            $ talk_loop_all_charactor("음식을 먹으며 방과 후 일정에 대해 이야기하는 상황이다. 플레이어의 말에 따라 반응하라./ 일정에 대한 대화를 3~5턴 정도 진행하면 종료된다.", last_char_line=f"{character_2_name}: 선배님들은 오늘 끝나고 뭐하세요? 일정 따로 있으세요?")
+            $ talk_loop_all_charactor(f"현재 식사를 하며 방과 후 일정에 대해 이야기하는 상황이다. {character_2_name}의 설정(동갑/연상일 경우 반말, 연하일 경우 존댓말)에 맞춰 플레이어의 말에 반응하라./ 일정에 대한 대화를 3~5턴 정도 진행하면 종료된다.", last_char_line=f"{character_2_name}: {schedule_question}")
+            
             hide character_2
             jump talk_3
 
